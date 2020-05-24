@@ -1,22 +1,26 @@
 package br.com.alura.listavip;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @SpringBootApplication
-@Controller
 public class Configuracao {
 
-	@RequestMapping("/")
-	@ResponseBody
-	public String ola() {
-		return "Ola, Bem vindo ao sistema Lista VIPs";
-	}
-	
 	public static void main(String[] args) {
 		SpringApplication.run(Configuracao.class, args);
+	}
+	
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/lista_vip");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("postgres");
+		return dataSource;
 	}
 }
