@@ -2,13 +2,14 @@ package br.com.alura.listavip.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "convidado")
 public class Convidado {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nome;
@@ -16,7 +17,17 @@ public class Convidado {
 	private String email;
 	
 	private String telefone;
+	
+	public Convidado() {
+		
+	}
 
+	public Convidado(String nome, String email, String telefone) {
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
+	}
+ 
 	public Long getId() {
 		return id;
 	}
