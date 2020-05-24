@@ -7,13 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.alura.enviadorEmail.enviadorEmail.EmailService;
 import br.com.alura.listavip.model.Convidado;
 import br.com.alura.listavip.repository.ConvidadoRepository;
 
 @Controller
 public class ConvidadoController {
+
 	@Autowired
-	private ConvidadoRepository convidadoRepository;
+	private ConvidadoService convidadoService;
 
 	@RequestMapping("/")
 	public String index() {
@@ -23,7 +25,7 @@ public class ConvidadoController {
 	@RequestMapping("listaconvidados")
 	public String listaConvidados(Model model) {
 
-		Iterable<Convidado> convidados = convidadoRepository.findAll();
+		Iterable<Convidado> convidados = convidadoService.listarTodosConvidados();
 
 		model.addAttribute("convidados", convidados);
 
@@ -34,9 +36,9 @@ public class ConvidadoController {
 	public String salvar(@RequestParam("nome") String nome, @RequestParam("email") String email,
 			@RequestParam("telefone") String telefone, Model model) {
 		Convidado convidado = new Convidado(nome, email, telefone);
-		convidadoRepository.save(convidado);
+		convidadoService.salvar(convidado);
 		
-		Iterable<Convidado> convidados = convidadoRepository.findAll();
+		Iterable<Convidado> convidados = convidadoService.listarTodosConvidados();
 		model.addAttribute("convidados", convidados);
 		return "listaconvidados";
 	}
